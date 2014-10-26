@@ -12,7 +12,7 @@ describe('eTag', function () {
 		should.exist(component);
 	});
 
-	it('check use server', function () {
+	it('check afterServer', function () {
 		should(component.afterServer({}, server, restify)).be.ok;
 	});
 });
