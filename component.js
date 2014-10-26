@@ -1,22 +1,23 @@
 'use strict';
 
-var config = require('./config/eTag'),
-	_ = require('lodash');
+var configDefault = require('./config/eTag'),
+	_ = require('lodash'),
+	name = 'eTag';
 
 module.exports = {
 	enable: true,
 
-	name: 'eTag',
+	name: name,
 
 	afterServer: function (elefrant, server, restify) {
-		var condReqH = config.conditionalRequestHeaders;
-		if (elefrant && elefrant.config && elefrant.config.eTag && elefrant.config.eTag.conditionalRequestHeaders) {
-			condReqH = elefrant.config.eTag.conditionalRequestHeaders;
+		var config = configDefault;
+		if (elefrant) {
+			config = elefrant.getConfigComp(name, configDefault);
 		}
 
-		if (!_.isEmpty(condReqH)) {
+		if (!_.isEmpty(config.conditionalRequestHeaders)) {
 			server.use(function setETag(req, res, next) {
-				_(condReqH)
+				_(config.conditionalRequestHeaders)
 					.each(function (def, identity) {
 						res.header(identity, def);
 					});
