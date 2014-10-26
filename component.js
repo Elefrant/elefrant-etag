@@ -11,7 +11,7 @@ module.exports = {
 
 	afterServer: function (elefrant, server, restify) {
 		var config = configDefault;
-		if (elefrant) {
+		if (elefrant && elefrant.getConfigComp) {
 			config = elefrant.getConfigComp(name, configDefault);
 		}
 
